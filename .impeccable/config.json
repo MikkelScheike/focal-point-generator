@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "src/index.css"
+        ],
+        "createdAt": "2026-09-05T13:05:08.011Z",
+        "reason": "Agent: .focal-grid is the image placement canvas, a measurement surface for aligning the focal point"
+      },
+      {
+        "rule": "overused-font",
+        "value": "geist",
+        "createdAt": "2026-09-05T13:34:22.752Z",
+        "reason": "Agent: Geist is the incumbent typeface of the shipped design system (index.css @theme + pre-existing font link); this SEO edit does not change typography"
+      }
+    ]
+  }
+}

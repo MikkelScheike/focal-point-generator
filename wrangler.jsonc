@@ -2,6 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "focal-point-generator",
   "compatibility_date": "2026-09-05",
+  "workers_dev": false,
   "observability": {
     "enabled": true,
   },

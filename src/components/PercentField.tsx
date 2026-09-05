@@ -1,57 +1,77 @@
 import { useEffect, useState } from "react";
-import { formatPercent, parsePercent } from "../lib/focal-point";
+import { formatRangeValue, parseRangeValue } from "../lib/focal-point";
 
 interface PercentFieldProps {
   id: string;
   label: string;
   value: number;
   onChange: (value: number) => void;
+  min?: number;
+  max?: number;
+  layout?: "stacked" | "inline";
 }
 
-export function PercentField({ id, label, value, onChange }: PercentFieldProps) {
+export function PercentField({
+  id,
+  label,
+  value,
+  onChange,
+  min = 0,
+  max = 100,
+  layout = "stacked",
+}: PercentFieldProps) {
   const [focused, setFocused] = useState(false);
-  const [draft, setDraft] = useState(formatPercent(value));
+  const [draft, setDraft] = useState(formatRangeValue(value, min, max));
+  const display = formatRangeValue(value, min, max);
+  const inline = layout === "inline";
 
   useEffect(() => {
     if (!focused) {
-      setDraft(formatPercent(value));
+      setDraft(formatRangeValue(value, min, max));
     }
-  }, [focused, value]);
+  }, [focused, value, min, max]);
 
   function commit(raw: string) {
-    const parsed = parsePercent(raw);
+    const parsed = parseRangeValue(raw, min, max);
     if (parsed === null) {
-      setDraft(formatPercent(value));
+      setDraft(display);
       return;
     }
     onChange(parsed);
-    setDraft(formatPercent(parsed));
+    setDraft(formatRangeValue(parsed, min, max));
   }
 
   return (
-    <label className="grid gap-1.5" htmlFor={id}>
+    <label
+      className={inline ? "flex items-center justify-between gap-3" : "grid gap-1.5"}
+      htmlFor={id}
+    >
       <span className="text-[11px] font-medium tracking-[0.14em] text-faint uppercase">
         {label}
       </span>
-      <span className="relative">
+      <span className={`relative ${inline ? "w-20 shrink-0" : ""}`}>
         <input
           id={id}
           inputMode="decimal"
-          value={focused ? draft : formatPercent(value)}
+          value={focused ? draft : display}
           onFocus={() => {
             setFocused(true);
-            setDraft(formatPercent(value));
+            setDraft(display);
           }}
           onBlur={() => {
             commit(draft);
             setFocused(false);
           }}
           onChange={(event) => {
-            setDraft(event.target.value);
-            const parsed = parsePercent(event.target.value);
-            if (parsed !== null) {
-              onChange(parsed);
+            const raw = event.target.value;
+            const parsed = parseRangeValue(raw, min, max);
+            if (parsed === null) {
+              setDraft(raw);
+              return;
             }
+            const typed = Number(raw.trim().replace(/%$/, ""));
+            setDraft(typed > max ? formatRangeValue(parsed, min, max) : raw);
+            onChange(parsed);
           }}
           onKeyDown={(event) => {
             if (event.key === "Enter") {

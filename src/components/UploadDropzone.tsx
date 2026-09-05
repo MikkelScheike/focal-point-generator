@@ -20,10 +20,9 @@ export function UploadDropzone({ onFile, error }: UploadDropzoneProps) {
 
   return (
     <div className="mx-auto flex w-full max-w-[640px] flex-col items-center px-6 pt-16 pb-20 sm:pt-24">
-      <p className="text-[11px] font-medium tracking-[0.22em] text-faint uppercase">Focal Point</p>
-      <h1 className="mt-4 max-w-[22ch] text-center text-3xl font-medium tracking-tight text-ink sm:text-4xl">
+      <h2 className="max-w-[22ch] text-center text-3xl font-medium tracking-tight text-ink sm:text-4xl">
         Keep the important part of your image in the right place.
-      </h1>
+      </h2>
       <p className="mt-4 max-w-[46ch] text-center text-sm leading-relaxed text-muted">
         Choose a focal point, preview how it crops across layouts, and copy{" "}
         <code className="font-mono text-[12px] text-ink">object-position</code> CSS. Nothing is
@@ -57,7 +56,7 @@ export function UploadDropzone({ onFile, error }: UploadDropzoneProps) {
         <div className="flex h-12 w-12 items-center justify-center rounded-full border border-line bg-overlay text-muted">
           <UploadIcon className="h-5 w-5" />
         </div>
-        <p className="mt-5 text-base font-medium text-ink">Drop an image here</p>
+        <h3 className="mt-5 text-base font-medium text-ink">Drop an image here</h3>
         <p className="mt-1 text-sm text-muted">or</p>
         <button
           type="button"

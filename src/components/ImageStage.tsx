@@ -1,6 +1,6 @@
 import { useCallback, useRef, type KeyboardEvent, type PointerEvent } from "react";
 import type { FocalPoint, LoadedImage } from "../lib/focal-point";
-import { pointFromPointer } from "../lib/focal-point";
+import { pointFromPointer, snapFocalPoint } from "../lib/focal-point";
 import { FocalMarker } from "./FocalMarker";
 
 interface ImageStageProps {
@@ -22,7 +22,8 @@ export function ImageStage({ image, point, onChange }: ImageStageProps) {
       if (!frame) {
         return;
       }
-      onChange(pointFromPointer(event.clientX, event.clientY, frame.getBoundingClientRect()));
+      const placed = pointFromPointer(event.clientX, event.clientY, frame.getBoundingClientRect());
+      onChange(event.altKey ? placed : snapFocalPoint(placed));
     },
     [onChange],
   );

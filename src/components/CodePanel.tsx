@@ -6,6 +6,7 @@ import { CheckIcon, CloseIcon, CopyIcon } from "./Icons";
 interface CodePanelProps {
   open: boolean;
   point: FocalPoint;
+  zoomPercent: number;
   formatId: CodeFormatId;
   fileName: string;
   onFormatChange: (id: CodeFormatId) => void;
@@ -33,6 +34,7 @@ async function copyText(text: string): Promise<boolean> {
 export function CodePanel({
   open,
   point,
+  zoomPercent,
   formatId,
   fileName,
   onFormatChange,
@@ -42,7 +44,7 @@ export function CodePanel({
   const closeRef = useRef<HTMLButtonElement>(null);
   const [copied, setCopied] = useState(false);
   const srcPlaceholder = fileName.trim() === "" ? "image.jpg" : fileName;
-  const code = generateCode(formatId, point, srcPlaceholder);
+  const code = generateCode(formatId, point, srcPlaceholder, zoomPercent);
   const format = CODE_FORMATS.find((item) => item.id === formatId) ?? CODE_FORMATS[0]!;
   const copyLabel = format.id === "css" ? "Copy CSS" : `Copy ${format.label}`;
 
@@ -74,7 +76,7 @@ export function CodePanel({
 
   useEffect(() => {
     setCopied(false);
-  }, [formatId, point, fileName, open]);
+  }, [formatId, point, zoomPercent, fileName, open]);
 
   if (!open) {
     return null;
@@ -110,8 +112,9 @@ export function CodePanel({
             </h2>
             <p className="mt-1 text-sm text-muted">
               Positioning for{" "}
-              <span className="font-mono text-[12px] text-ink">{srcPlaceholder}</span>. The image
-              pixels are not modified.
+              <span className="font-mono text-[12px] text-ink">{srcPlaceholder}</span>
+              {zoomPercent > 100 ? ` at ${zoomPercent}% zoom` : ""}. The image pixels are not
+              modified.
             </p>
           </div>
           <button
@@ -125,7 +128,11 @@ export function CodePanel({
           </button>
         </div>
 
-        <div className="flex flex-wrap gap-1.5 px-5 pt-4" role="tablist" aria-label="Code format">
+        <div
+          className="mx-5 mt-4 grid grid-cols-2 gap-1 rounded-lg border border-line bg-canvas p-1 sm:grid-cols-4"
+          role="tablist"
+          aria-label="Code format"
+        >
           {CODE_FORMATS.map((item) => {
             const selected = item.id === formatId;
             return (
@@ -135,10 +142,8 @@ export function CodePanel({
                 role="tab"
                 aria-selected={selected}
                 onClick={() => onFormatChange(item.id)}
-                className={`h-11 min-w-11 rounded-lg px-3 text-sm font-medium transition-colors ${
-                  selected
-                    ? "bg-ink text-canvas"
-                    : "border border-line text-muted hover:border-line-strong hover:text-ink"
+                className={`h-10 min-w-0 rounded-md px-2 text-sm font-medium whitespace-nowrap transition-colors ${
+                  selected ? "bg-ink text-canvas" : "text-muted hover:bg-overlay hover:text-ink"
                 }`}
               >
                 {item.label}

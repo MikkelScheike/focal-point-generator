@@ -17,6 +17,7 @@ export type CodeFormatId = "css" | "tailwind" | "inline" | "react";
 export interface CodeContext {
   focalPoint: FocalPoint;
   srcPlaceholder: string;
+  zoomPercent: number;
 }
 
 export interface CodeFormat {
