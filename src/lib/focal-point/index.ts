@@ -48,10 +48,15 @@ export {
 export {
   ACCEPT_ATTRIBUTE,
   INVALID_IMAGE_MESSAGE,
+  fileFromUrl,
   imageFromClipboard,
   isProbablyImage,
   loadImageFile,
   revokeLoadedImage,
 } from "./image";
+
+export { SAMPLE_IMAGES, type SampleGuide, type SampleImage } from "./samples";
+
+export { animateFocalPoint, animateZoomPercent, wait } from "./animate";
 
 export { listDetectors, registerDetector } from "./detector";

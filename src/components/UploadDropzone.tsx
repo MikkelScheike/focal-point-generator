@@ -1,13 +1,20 @@
 import { useRef, useState } from "react";
-import { ACCEPT_ATTRIBUTE, INVALID_IMAGE_MESSAGE } from "../lib/focal-point";
+import {
+  ACCEPT_ATTRIBUTE,
+  INVALID_IMAGE_MESSAGE,
+  SAMPLE_IMAGES,
+  type SampleImage,
+} from "../lib/focal-point";
 import { UploadIcon } from "./Icons";
 
 interface UploadDropzoneProps {
   onFile: (file: File) => void;
+  onSample: (sample: SampleImage) => void;
   error: string | null;
+  sampleLoadingId: string | null;
 }
 
-export function UploadDropzone({ onFile, error }: UploadDropzoneProps) {
+export function UploadDropzone({ onFile, onSample, error, sampleLoadingId }: UploadDropzoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
 
@@ -24,9 +31,13 @@ export function UploadDropzone({ onFile, error }: UploadDropzoneProps) {
         Keep the important part of your image in the right place.
       </h2>
       <p className="mt-4 max-w-[46ch] text-center text-sm leading-relaxed text-muted">
-        Choose a focal point, preview how it crops across layouts, and copy{" "}
-        <code className="font-mono text-[12px] text-ink">object-position</code> CSS. Nothing is
-        uploaded.
+        Hero images, cards, and thumbnails all crop the same photo differently. Browsers keep the
+        center. Faces, products, and signs that sit off-center get cut off.
+      </p>
+      <p className="mt-3 max-w-[46ch] text-center text-sm leading-relaxed text-muted">
+        This tool lets you mark the part that matters, preview the crops, and copy{" "}
+        <code className="font-mono text-[12px] text-ink">object-position</code> CSS. The image never
+        leaves your browser.
       </p>
 
       <div
@@ -76,6 +87,34 @@ export function UploadDropzone({ onFile, error }: UploadDropzoneProps) {
             event.target.value = "";
           }}
         />
+      </div>
+
+      <div className="mt-10 w-full">
+        <p className="text-center text-xs text-faint">Or try a sample</p>
+        <div className="mt-3 grid grid-cols-4 gap-2 sm:gap-3">
+          {SAMPLE_IMAGES.map((sample) => {
+            const loading = sampleLoadingId === sample.id;
+            return (
+              <button
+                key={sample.id}
+                type="button"
+                disabled={sampleLoadingId !== null}
+                onClick={() => onSample(sample)}
+                aria-label={`Try sample: ${sample.alt}`}
+                className="group overflow-hidden rounded-lg border border-line bg-overlay text-left transition-colors hover:border-line-strong disabled:opacity-60"
+              >
+                <img
+                  src={sample.src}
+                  alt=""
+                  className="aspect-[4/3] w-full object-cover"
+                />
+                <span className="block px-2 py-1.5 text-[11px] text-muted group-hover:text-ink">
+                  {loading ? "Loading…" : sample.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {error ? (

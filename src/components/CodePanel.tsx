@@ -103,7 +103,7 @@ export function CodePanel({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative z-10 flex max-h-[min(92dvh,720px)] w-full max-w-[680px] flex-col overflow-hidden rounded-2xl border border-line bg-raised shadow-[0_24px_80px_rgb(0_0_0_/_0.45)]"
+        className="relative z-10 grid w-full max-w-[680px] max-h-[min(92dvh,720px)] grid-rows-[auto_auto_minmax(0,1fr)] overflow-hidden rounded-2xl border border-line bg-raised shadow-[0_24px_80px_rgb(0_0_0_/_0.45)]"
       >
         <div className="flex items-start justify-between gap-4 border-b border-line px-5 py-4">
           <div>
@@ -152,8 +152,8 @@ export function CodePanel({
           })}
         </div>
 
-        <div className="min-h-0 flex-1 overflow-hidden px-5 py-4">
-          <div className="flex h-full flex-col overflow-hidden rounded-xl border border-line bg-canvas">
+        <div className="min-h-0 overflow-y-auto px-5 py-4">
+          <div className="rounded-xl border border-line bg-canvas">
             <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-2.5">
               <span className="font-mono text-[11px] tracking-[0.12em] text-faint uppercase">
                 {format.language}
@@ -173,7 +173,7 @@ export function CodePanel({
                 {copied ? "Copied" : copyLabel}
               </button>
             </div>
-            <pre className="overflow-auto p-4 font-mono text-[13px] leading-relaxed text-ink">
+            <pre className="p-4 pb-6 font-mono text-[13px] leading-relaxed break-words whitespace-pre-wrap text-ink">
               <code>{code}</code>
             </pre>
           </div>

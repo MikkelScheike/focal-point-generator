@@ -90,3 +90,17 @@ export function CloseIcon(props: SVGProps<SVGSVGElement>) {
     </Svg>
   );
 }
+
+export function BackIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Svg {...props}>
+      <path
+        d="M14 5 7 12l7 7M7 12h13"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}

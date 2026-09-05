@@ -9,7 +9,6 @@ interface CropPreviewProps {
   label: string;
   ratioLabel: string;
   zoomPercent: number;
-  maxHeight?: number;
 }
 
 export function CropPreview({
@@ -20,19 +19,19 @@ export function CropPreview({
   label,
   ratioLabel,
   zoomPercent,
-  maxHeight = 240,
 }: CropPreviewProps) {
   const position = `${point.x}% ${point.y}%`;
   const zoomed = isZoomed(zoomPercent);
 
   return (
-    <figure className="min-w-0">
+    <figure className="mx-auto w-3/4 min-w-0">
+      <figcaption className="mb-2 flex items-baseline justify-between gap-2">
+        <span className="truncate text-sm font-medium text-ink">{label}</span>
+        <span className="shrink-0 font-mono text-[11px] text-faint tabular-nums">{ratioLabel}</span>
+      </figcaption>
       <div
-        className="relative mx-auto overflow-hidden rounded-lg bg-canvas"
-        style={{
-          aspectRatio: String(ratio),
-          width: `min(100%, calc(${maxHeight}px * ${ratio}))`,
-        }}
+        className="relative w-full overflow-hidden rounded-lg bg-canvas"
+        style={{ aspectRatio: String(ratio) }}
       >
         <img
           src={src}
@@ -47,10 +46,6 @@ export function CropPreview({
           }}
         />
       </div>
-      <figcaption className="mt-2 flex items-baseline justify-between gap-3">
-        <span className="truncate text-sm font-medium text-ink">{label}</span>
-        <span className="shrink-0 font-mono text-[11px] text-faint tabular-nums">{ratioLabel}</span>
-      </figcaption>
     </figure>
   );
 }

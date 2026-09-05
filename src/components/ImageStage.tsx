@@ -6,13 +6,14 @@ import { FocalMarker } from "./FocalMarker";
 interface ImageStageProps {
   image: LoadedImage;
   point: FocalPoint;
+  locked?: boolean;
   onChange: (point: FocalPoint) => void;
 }
 
 const NUDGE = 0.5;
 const NUDGE_LARGE = 5;
 
-export function ImageStage({ image, point, onChange }: ImageStageProps) {
+export function ImageStage({ image, point, locked = false, onChange }: ImageStageProps) {
   const frameRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
 
@@ -29,7 +30,7 @@ export function ImageStage({ image, point, onChange }: ImageStageProps) {
   );
 
   function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
-    if (event.button !== 0) {
+    if (locked || event.button !== 0) {
       return;
     }
     event.preventDefault();
@@ -39,7 +40,7 @@ export function ImageStage({ image, point, onChange }: ImageStageProps) {
   }
 
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
-    if (!dragging.current) {
+    if (locked || !dragging.current) {
       return;
     }
     updateFromPointer(event);
@@ -53,6 +54,9 @@ export function ImageStage({ image, point, onChange }: ImageStageProps) {
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (locked) {
+      return;
+    }
     const step = event.shiftKey ? NUDGE_LARGE : NUDGE;
     if (event.key === "ArrowLeft") {
       event.preventDefault();
@@ -72,13 +76,16 @@ export function ImageStage({ image, point, onChange }: ImageStageProps) {
   return (
     <div
       ref={frameRef}
-      className="relative inline-block max-h-full max-w-full cursor-crosshair touch-none select-none"
+      className={`relative inline-block max-h-full max-w-full touch-none select-none ${
+        locked ? "cursor-default" : "cursor-crosshair"
+      }`}
       role="slider"
       aria-label="Focal point on image"
+      aria-disabled={locked}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuetext={`X ${point.x.toFixed(1)} percent, Y ${point.y.toFixed(1)} percent`}
-      tabIndex={0}
+      tabIndex={locked ? -1 : 0}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}

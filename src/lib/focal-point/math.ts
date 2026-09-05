@@ -3,7 +3,7 @@ import type { FocalPoint } from "./types";
 export const DEFAULT_FOCAL_POINT: FocalPoint = { x: 50, y: 50 };
 export const DEFAULT_ZOOM_PERCENT = 100;
 export const MIN_ZOOM_PERCENT = 100;
-export const MAX_ZOOM_PERCENT = 200;
+export const MAX_ZOOM_PERCENT = 250;
 
 export function clampZoomPercent(value: number): number {
   if (!Number.isFinite(value)) {

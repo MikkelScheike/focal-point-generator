@@ -75,7 +75,11 @@ const tailwindFormat: CodeFormat = {
     src="${srcPlaceholder}"
     alt=""
     class="h-full w-full object-cover"
-    style="object-position: ${position}; transform: scale(${scale}); transform-origin: ${position};"
+    style="
+      object-position: ${position};
+      transform: scale(${scale});
+      transform-origin: ${position};
+    "
   />
 </div>`;
   },
@@ -98,7 +102,15 @@ const inlineFormat: CodeFormat = {
   <img
     src="${srcPlaceholder}"
     alt=""
-    style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: ${position}; transform: scale(${scale}); transform-origin: ${position};"
+    style="
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: ${position};
+      transform: scale(${scale});
+      transform-origin: ${position};
+    "
   />
 </div>`;
   },

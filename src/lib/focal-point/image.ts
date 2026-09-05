@@ -16,6 +16,27 @@ export function isProbablyImage(file: File): boolean {
   return IMAGE_EXTENSION.test(file.name);
 }
 
+export async function fileFromUrl(url: string, fileName: string): Promise<File> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(INVALID_IMAGE_MESSAGE);
+  }
+
+  const blob = await response.blob();
+  if (blob.type !== "" && !blob.type.startsWith("image/")) {
+    throw new Error(INVALID_IMAGE_MESSAGE);
+  }
+
+  const type = blob.type || "image/jpeg";
+  const file = new File([blob], fileName, { type });
+
+  if (!isProbablyImage(file)) {
+    throw new Error(INVALID_IMAGE_MESSAGE);
+  }
+
+  return file;
+}
+
 export function loadImageFile(file: File): Promise<LoadedImage> {
   if (!isProbablyImage(file)) {
     return Promise.reject(new Error(INVALID_IMAGE_MESSAGE));

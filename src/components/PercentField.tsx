@@ -9,6 +9,7 @@ interface PercentFieldProps {
   min?: number;
   max?: number;
   layout?: "stacked" | "inline";
+  disabled?: boolean;
 }
 
 export function PercentField({
@@ -19,6 +20,7 @@ export function PercentField({
   min = 0,
   max = 100,
   layout = "stacked",
+  disabled = false,
 }: PercentFieldProps) {
   const [focused, setFocused] = useState(false);
   const [draft, setDraft] = useState(formatRangeValue(value, min, max));
@@ -53,6 +55,7 @@ export function PercentField({
         <input
           id={id}
           inputMode="decimal"
+          disabled={disabled}
           value={focused ? draft : display}
           onFocus={() => {
             setFocused(true);

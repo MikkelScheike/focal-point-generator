@@ -30,9 +30,8 @@ export interface CodeFormat {
 export interface CropPreset {
   id: string;
   label: string;
-  /** Width / height. Null means the user supplies a custom ratio. */
-  ratio: number | null;
-  defaultCustom?: { width: number; height: number };
+  /** Width / height. */
+  ratio: number;
 }
 
 export interface FocalPointSuggestion {
