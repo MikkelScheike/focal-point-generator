@@ -27,7 +27,9 @@ export function CropPreview({
     <figure className="mx-auto w-3/4 min-w-0">
       <figcaption className="mb-2 flex items-baseline justify-between gap-2">
         <span className="truncate text-sm font-medium text-ink">{label}</span>
-        <span className="shrink-0 font-mono text-[11px] text-faint tabular-nums">{ratioLabel}</span>
+        <span className="shrink-0 font-mono text-[11px] text-faint tabular-nums">
+          {ratioLabel}
+        </span>
       </figcaption>
       <div
         className="relative w-full overflow-hidden rounded-lg bg-canvas"
@@ -41,7 +43,9 @@ export function CropPreview({
           style={{
             objectFit: "cover",
             objectPosition: position,
-            transform: zoomed ? `scale(${formatZoomScale(zoomPercent)})` : undefined,
+            transform: zoomed
+              ? `scale(${formatZoomScale(zoomPercent)})`
+              : undefined,
             transformOrigin: position,
           }}
         />

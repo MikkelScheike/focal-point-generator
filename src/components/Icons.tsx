@@ -1,6 +1,9 @@
 import type { ReactNode, SVGProps } from "react";
 
-function Svg({ children, ...props }: SVGProps<SVGSVGElement> & { children: ReactNode }) {
+function Svg({
+  children,
+  ...props
+}: SVGProps<SVGSVGElement> & { children: ReactNode }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
       {children}
@@ -25,7 +28,15 @@ export function UploadIcon(props: SVGProps<SVGSVGElement>) {
 export function CopyIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <Svg {...props}>
-      <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="1.6" />
+      <rect
+        x="9"
+        y="9"
+        width="11"
+        height="11"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
       <path
         d="M5 15V6.2A2.2 2.2 0 0 1 7.2 4H15"
         stroke="currentColor"
@@ -86,6 +97,34 @@ export function CloseIcon(props: SVGProps<SVGSVGElement>) {
         stroke="currentColor"
         strokeWidth="1.6"
         strokeLinecap="round"
+      />
+    </Svg>
+  );
+}
+
+export function ChevronLeftIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Svg {...props}>
+      <path
+        d="M15 5 8 12l7 7"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+
+export function ChevronRightIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Svg {...props}>
+      <path
+        d="M9 5l7 7-7 7"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </Svg>
   );

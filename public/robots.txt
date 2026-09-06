@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# LLM-readable index: https://llmstxt.org/
+# https://focalpointgenerator.dev/llms.txt
+# https://focalpointgenerator.dev/llms-full.txt
+
 Sitemap: https://focalpointgenerator.dev/sitemap.xml

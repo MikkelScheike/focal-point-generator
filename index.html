@@ -6,23 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Focal Point Generator — object-position CSS for image crops</title>
     <meta
+      id="meta-description"
       name="description"
       content="Keep the important part of your image in the right place. Place a focal point in your browser, preview responsive crops, and copy the object-position CSS. Free, client-side, nothing is uploaded."
     />
     <link rel="canonical" href="https://focalpointgenerator.dev/" />
+    <link rel="describedby" href="https://focalpointgenerator.dev/llms.txt" />
+    <link
+      id="markdown-alternate"
+      rel="alternate"
+      type="text/markdown"
+      title="Markdown"
+      href="https://focalpointgenerator.dev/index.md"
+    />
+    <link rel="author" href="https://mikkelscheike.com" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#09090b" />
     <meta name="color-scheme" content="dark" />
+    <meta name="author" content="Mikkel Scheike" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Focal Point Generator" />
-    <meta property="og:url" content="https://focalpointgenerator.dev/" />
-    <meta property="og:title" content="Focal Point Generator — object-position CSS for image crops" />
     <meta
+      id="og-url"
+      property="og:url"
+      content="https://focalpointgenerator.dev/"
+    />
+    <meta
+      id="og-title"
+      property="og:title"
+      content="Focal Point Generator — object-position CSS for image crops"
+    />
+    <meta
+      id="og-description"
       property="og:description"
       content="Place a focal point on your image, preview how it crops across layouts, and copy the object-position CSS. Runs entirely in your browser."
     />
-    <meta property="og:image" content="https://focalpointgenerator.dev/og.png" />
+    <meta
+      property="og:image"
+      content="https://focalpointgenerator.dev/og.png"
+    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta
@@ -32,12 +56,24 @@
     <meta property="og:locale" content="en_US" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Focal Point Generator — object-position CSS for image crops" />
     <meta
+      id="twitter-title"
+      name="twitter:title"
+      content="Focal Point Generator — object-position CSS for image crops"
+    />
+    <meta
+      id="twitter-description"
       name="twitter:description"
       content="Place a focal point on your image, preview how it crops across layouts, and copy the object-position CSS. Runs entirely in your browser."
     />
-    <meta name="twitter:image" content="https://focalpointgenerator.dev/og.png" />
+    <meta
+      name="twitter:image"
+      content="https://focalpointgenerator.dev/og.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Focal Point Generator: a crop frame with a teal focal point marker on a dark background."
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -63,21 +99,54 @@
           "price": "0",
           "priceCurrency": "USD"
         },
+        "creator": {
+          "@type": "Person",
+          "name": "Mikkel Scheike",
+          "url": "https://mikkelscheike.com"
+        },
         "license": "https://opensource.org/licenses/MIT",
-        "sameAs": "https://github.com/MikkelScheike/focal-point-generator",
+        "sameAs": [
+          "https://github.com/MikkelScheike/focal-point-generator",
+          "https://mikkelscheike.com"
+        ],
         "screenshot": "https://focalpointgenerator.dev/og.png",
         "featureList": [
           "Place an image focal point visually",
-          "Preview desktop, tablet, mobile, square, portrait and custom crops",
+          "Preview desktop, tablet, mobile, and square crops",
           "Zoom the crop past cover with transform-origin at the focal point",
           "Copy CSS, Tailwind, inline style or React output",
           "Client-side only: images never leave the browser"
-        ]
+        ],
+        "hasPart": {
+          "@type": "WebPage",
+          "name": "About",
+          "url": "https://focalpointgenerator.dev/about",
+          "description": "What Focal Point Generator is, why focal points matter, browser support, and who built it."
+        }
       }
     </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <article>
+        <h1>Focal Point Generator</h1>
+        <p>
+          A client-side developer utility for placing an image focal point and
+          copying object-position CSS for object-fit: cover. JavaScript is
+          required for the editor. Images never leave your browser.
+        </p>
+        <p>
+          <a href="/about">About</a>
+          ·
+          <a href="/about.md">About (markdown)</a>
+          ·
+          <a href="/llms.txt">llms.txt</a>
+          ·
+          <a href="/llms-full.txt">Full text</a>
+        </p>
+      </article>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

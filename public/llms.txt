@@ -1,0 +1,19 @@
+# Focal Point Generator
+
+> Client-side developer utility for placing an image focal point and generating `object-position` CSS so `object-fit: cover` keeps the important part of a photo in frame across responsive crops.
+
+Images never leave the browser. There is no account, API, or server-side processing. A focal point is not “put this pixel in the center.” It is the important part of the image: `object-fit: cover` plus `object-position: X% Y%` keeps that point aligned in cropped frames. `0% 0%` is top-left. `50% 50%` is center. `100% 100%` is bottom-right.
+
+Workflow: open or paste an image, place the point, preview Desktop / Tablet / Mobile / Square crops, optionally zoom, then copy CSS, Tailwind, inline style, or React.
+
+## Docs
+
+- [About](https://focalpointgenerator.dev/about.md): What the tool is, why focal points matter, browser support from version, and who built it
+- [Home](https://focalpointgenerator.dev/index.md): How to use the generator and how the generated CSS works
+- [Full text](https://focalpointgenerator.dev/llms-full.txt): Complete product description in one file
+
+## Optional
+
+- [About (HTML)](https://focalpointgenerator.dev/about): Human-readable About page
+- [Source on GitHub](https://github.com/MikkelScheike/focal-point-generator)
+- [Built by Mikkel Scheike](https://mikkelscheike.com)

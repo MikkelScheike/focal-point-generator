@@ -14,7 +14,12 @@ interface UploadDropzoneProps {
   sampleLoadingId: string | null;
 }
 
-export function UploadDropzone({ onFile, onSample, error, sampleLoadingId }: UploadDropzoneProps) {
+export function UploadDropzone({
+  onFile,
+  onSample,
+  error,
+  sampleLoadingId,
+}: UploadDropzoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
 
@@ -27,17 +32,19 @@ export function UploadDropzone({ onFile, onSample, error, sampleLoadingId }: Upl
 
   return (
     <div className="mx-auto flex w-full max-w-[640px] flex-col items-center px-6 pt-16 pb-20 sm:pt-24">
-      <h2 className="max-w-[22ch] text-center text-3xl font-medium tracking-tight text-ink sm:text-4xl">
+      <h1 className="max-w-[22ch] text-center text-3xl font-medium tracking-tight text-ink sm:text-4xl">
         Keep the important part of your image in the right place.
-      </h2>
+      </h1>
       <p className="mt-4 max-w-[46ch] text-center text-sm leading-relaxed text-muted">
-        Hero images, cards, and thumbnails all crop the same photo differently. Browsers keep the
-        center. Faces, products, and signs that sit off-center get cut off.
+        Hero images, cards, and thumbnails all crop the same photo differently.
+        Browsers keep the center. Faces, products, and signs that sit off-center
+        get cut off.
       </p>
       <p className="mt-3 max-w-[46ch] text-center text-sm leading-relaxed text-muted">
-        This tool lets you mark the part that matters, preview the crops, and copy{" "}
-        <code className="font-mono text-[12px] text-ink">object-position</code> CSS. The image never
-        leaves your browser.
+        This tool lets you mark the part that matters, preview the crops, and
+        copy{" "}
+        <code className="font-mono text-[12px] text-ink">object-position</code>{" "}
+        CSS. The image never leaves your browser.
       </p>
 
       <div
@@ -61,13 +68,17 @@ export function UploadDropzone({ onFile, onSample, error, sampleLoadingId }: Upl
           takeFile(event.dataTransfer.files[0]);
         }}
         className={`mt-10 flex w-full flex-col items-center rounded-2xl border border-dashed px-6 py-14 transition-colors ${
-          over ? "border-accent bg-accent-dim" : "border-line-strong bg-raised/80"
+          over
+            ? "border-accent bg-accent-dim"
+            : "border-line-strong bg-raised/80"
         }`}
       >
         <div className="flex h-12 w-12 items-center justify-center rounded-full border border-line bg-overlay text-muted">
           <UploadIcon className="h-5 w-5" />
         </div>
-        <h3 className="mt-5 text-base font-medium text-ink">Drop an image here</h3>
+        <h3 className="mt-5 text-base font-medium text-ink">
+          Drop an image here
+        </h3>
         <p className="mt-1 text-sm text-muted">or</p>
         <button
           type="button"
@@ -76,7 +87,9 @@ export function UploadDropzone({ onFile, onSample, error, sampleLoadingId }: Upl
         >
           Upload image
         </button>
-        <p className="mt-4 text-xs text-faint">JPEG, PNG, WebP, GIF, AVIF, BMP</p>
+        <p className="mt-4 text-xs text-faint">
+          JPEG, PNG, WebP, GIF, AVIF, BMP
+        </p>
         <input
           ref={inputRef}
           type="file"

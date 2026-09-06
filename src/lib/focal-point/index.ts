@@ -57,6 +57,13 @@ export {
 
 export { SAMPLE_IMAGES, type SampleGuide, type SampleImage } from "./samples";
 
+export {
+  DEMO_LAYOUTS,
+  DEMO_TRANSITION_MS,
+  type DemoLayout,
+  type DemoLayoutKind,
+} from "./demo-layouts";
+
 export { animateFocalPoint, animateZoomPercent, wait } from "./animate";
 
 export { listDetectors, registerDetector } from "./detector";

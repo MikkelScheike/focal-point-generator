@@ -76,14 +76,20 @@ export function animateFocalPoint(
   signal: AbortSignal,
 ): Promise<boolean> {
   const target = clampFocalPoint(to);
-  return animateValue(0, 1, durationMs, (t) => {
-    onFrame(
-      clampFocalPoint({
-        x: from.x + (target.x - from.x) * t,
-        y: from.y + (target.y - from.y) * t,
-      }),
-    );
-  }, signal).then((completed) => {
+  return animateValue(
+    0,
+    1,
+    durationMs,
+    (t) => {
+      onFrame(
+        clampFocalPoint({
+          x: from.x + (target.x - from.x) * t,
+          y: from.y + (target.y - from.y) * t,
+        }),
+      );
+    },
+    signal,
+  ).then((completed) => {
     if (completed) {
       onFrame(target);
     }
@@ -99,9 +105,15 @@ export function animateZoomPercent(
   signal: AbortSignal,
 ): Promise<boolean> {
   const target = clampZoomPercent(to);
-  return animateValue(from, target, durationMs, (value) => {
-    onFrame(clampZoomPercent(value));
-  }, signal).then((completed) => {
+  return animateValue(
+    from,
+    target,
+    durationMs,
+    (value) => {
+      onFrame(clampZoomPercent(value));
+    },
+    signal,
+  ).then((completed) => {
     if (completed) {
       onFrame(target);
     }

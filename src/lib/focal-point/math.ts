@@ -49,7 +49,11 @@ export function clampFocalPoint(point: FocalPoint): FocalPoint {
 }
 
 /** Display with at most one decimal place. */
-export function formatRangeValue(value: number, min: number, max: number): string {
+export function formatRangeValue(
+  value: number,
+  min: number,
+  max: number,
+): string {
   if (!Number.isFinite(value)) {
     return String(min);
   }
@@ -57,7 +61,11 @@ export function formatRangeValue(value: number, min: number, max: number): strin
   return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
 }
 
-export function parseRangeValue(input: string, min: number, max: number): number | null {
+export function parseRangeValue(
+  input: string,
+  min: number,
+  max: number,
+): number | null {
   const trimmed = input.trim().replace(/%$/, "");
   if (trimmed === "") {
     return null;
@@ -92,7 +100,10 @@ export function gcd(a: number, b: number): number {
   return x || 1;
 }
 
-export function simplifyRatio(width: number, height: number): { width: number; height: number } {
+export function simplifyRatio(
+  width: number,
+  height: number,
+): { width: number; height: number } {
   const divisor = gcd(width, height);
   return {
     width: Math.round(width) / divisor,
@@ -110,7 +121,9 @@ export const SNAP_TARGETS: readonly number[] = [0, 50, 100];
 export const SNAP_THRESHOLD_PERCENT = 1.5;
 
 function snapValue(value: number, threshold: number): number {
-  const target = SNAP_TARGETS.find((candidate) => Math.abs(value - candidate) <= threshold);
+  const target = SNAP_TARGETS.find(
+    (candidate) => Math.abs(value - candidate) <= threshold,
+  );
   return target ?? value;
 }
 

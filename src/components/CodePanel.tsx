@@ -45,7 +45,8 @@ export function CodePanel({
   const [copied, setCopied] = useState(false);
   const srcPlaceholder = fileName.trim() === "" ? "image.jpg" : fileName;
   const code = generateCode(formatId, point, srcPlaceholder, zoomPercent);
-  const format = CODE_FORMATS.find((item) => item.id === formatId) ?? CODE_FORMATS[0]!;
+  const format =
+    CODE_FORMATS.find((item) => item.id === formatId) ?? CODE_FORMATS[0]!;
   const copyLabel = format.id === "css" ? "Copy CSS" : `Copy ${format.label}`;
 
   useEffect(() => {
@@ -112,9 +113,11 @@ export function CodePanel({
             </h2>
             <p className="mt-1 text-sm text-muted">
               Positioning for{" "}
-              <span className="font-mono text-[12px] text-ink">{srcPlaceholder}</span>
-              {zoomPercent > 100 ? ` at ${zoomPercent}% zoom` : ""}. The image pixels are not
-              modified.
+              <span className="font-mono text-[12px] text-ink">
+                {srcPlaceholder}
+              </span>
+              {zoomPercent > 100 ? ` at ${zoomPercent}% zoom` : ""}. The image
+              pixels are not modified.
             </p>
           </div>
           <button
@@ -143,7 +146,9 @@ export function CodePanel({
                 aria-selected={selected}
                 onClick={() => onFormatChange(item.id)}
                 className={`h-10 min-w-0 rounded-md px-2 text-sm font-medium whitespace-nowrap transition-colors ${
-                  selected ? "bg-ink text-canvas" : "text-muted hover:bg-overlay hover:text-ink"
+                  selected
+                    ? "bg-ink text-canvas"
+                    : "text-muted hover:bg-overlay hover:text-ink"
                 }`}
               >
                 {item.label}

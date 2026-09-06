@@ -16,13 +16,16 @@ import {
   type LoadedImage,
   type SampleImage,
 } from "./lib/focal-point";
+import { AboutPage } from "./components/AboutPage";
 import { CodePanel } from "./components/CodePanel";
+import { DemoStage } from "./components/DemoStage";
 import { FocalPanel } from "./components/FocalPanel";
 import { GuideOverlay, type GuideStep } from "./components/GuideOverlay";
 import { ImageStage } from "./components/ImageStage";
 import { PreviewStrip } from "./components/PreviewStrip";
 import { UploadDropzone } from "./components/UploadDropzone";
 import { BackIcon, CodeIcon, UploadIcon } from "./components/Icons";
+import { usePathname } from "./lib/navigation";
 
 export default function App() {
   const replaceInputRef = useRef<HTMLInputElement>(null);
@@ -37,6 +40,9 @@ export default function App() {
   const [sampleLoadingId, setSampleLoadingId] = useState<string | null>(null);
   const [activeSample, setActiveSample] = useState<SampleImage | null>(null);
   const [guideStep, setGuideStep] = useState<GuideStep | null>(null);
+  const [demoOpen, setDemoOpen] = useState(false);
+  const { pathname, navigate } = usePathname();
+  const onAbout = pathname === "/about";
   const guideAbortRef = useRef<AbortController | null>(null);
 
   const cancelGuide = useCallback(() => {
@@ -48,6 +54,7 @@ export default function App() {
   const handleFile = useCallback(
     async (file: File): Promise<boolean> => {
       cancelGuide();
+      setDemoOpen(false);
       setActiveSample(null);
       try {
         const loaded = await loadImageFile(file);
@@ -59,7 +66,8 @@ export default function App() {
         setError(null);
         return true;
       } catch (caught) {
-        const message = caught instanceof Error ? caught.message : INVALID_IMAGE_MESSAGE;
+        const message =
+          caught instanceof Error ? caught.message : INVALID_IMAGE_MESSAGE;
         setError(message);
         return false;
       }
@@ -77,7 +85,8 @@ export default function App() {
           setActiveSample(sample);
         }
       } catch (caught) {
-        const message = caught instanceof Error ? caught.message : INVALID_IMAGE_MESSAGE;
+        const message =
+          caught instanceof Error ? caught.message : INVALID_IMAGE_MESSAGE;
         setError(message);
       } finally {
         setSampleLoadingId(null);
@@ -143,6 +152,9 @@ export default function App() {
 
   useEffect(() => {
     function onPaste(event: ClipboardEvent) {
+      if (onAbout) {
+        return;
+      }
       void imageFromClipboard(event).then((file) => {
         if (file) {
           event.preventDefault();
@@ -153,14 +165,67 @@ export default function App() {
 
     window.addEventListener("paste", onPaste);
     return () => window.removeEventListener("paste", onPaste);
-  }, [handleFile]);
+  }, [handleFile, onAbout]);
 
   function handleReset() {
     setPoint(DEFAULT_FOCAL_POINT);
   }
 
+  function handleHome() {
+    if (onAbout) {
+      navigate("/");
+      return;
+    }
+    handleBack();
+  }
+
+  useEffect(() => {
+    const origin = "https://focalpointgenerator.dev";
+    const homeTitle =
+      "Focal Point Generator — object-position CSS for image crops";
+    const homeDescription =
+      "Keep the important part of your image in the right place. Place a focal point in your browser, preview responsive crops, and copy the object-position CSS. Free, client-side, nothing is uploaded.";
+    const aboutTitle = "About — Focal Point Generator";
+    const aboutDescription =
+      "What Focal Point Generator is, why a crop can look right on one layout and fail on the next, which browsers support object-position, and who built it.";
+    const title = onAbout ? aboutTitle : homeTitle;
+    const description = onAbout ? aboutDescription : homeDescription;
+    const url = onAbout ? `${origin}/about` : `${origin}/`;
+
+    document.title = title;
+
+    const descriptionTag = document.getElementById("meta-description");
+    if (descriptionTag) {
+      descriptionTag.setAttribute("content", description);
+    }
+
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute("href", url);
+    }
+
+    const markdown = document.getElementById("markdown-alternate");
+    if (markdown) {
+      markdown.setAttribute(
+        "href",
+        onAbout ? `${origin}/about.md` : `${origin}/index.md`,
+      );
+    }
+
+    document.getElementById("og-url")?.setAttribute("content", url);
+    document.getElementById("og-title")?.setAttribute("content", title);
+    document
+      .getElementById("og-description")
+      ?.setAttribute("content", description);
+    document.getElementById("twitter-title")?.setAttribute("content", title);
+    document
+      .getElementById("twitter-description")
+      ?.setAttribute("content", description);
+  }, [onAbout]);
+
   function handleBack() {
     cancelGuide();
+    setDemoOpen(false);
     revokeLoadedImage(imageRef.current);
     imageRef.current = null;
     setImage(null);
@@ -176,6 +241,9 @@ export default function App() {
       className="min-h-dvh"
       onDragEnter={(event) => {
         event.preventDefault();
+        if (onAbout) {
+          return;
+        }
         if (event.dataTransfer.types.includes("Files")) {
           setDropActive(true);
         }
@@ -192,6 +260,9 @@ export default function App() {
       onDrop={(event) => {
         event.preventDefault();
         setDropActive(false);
+        if (onAbout) {
+          return;
+        }
         const file = event.dataTransfer.files[0];
         if (file) {
           void handleFile(file);
@@ -199,40 +270,62 @@ export default function App() {
       }}
     >
       <header className="mx-auto flex h-16 w-full max-w-[1280px] shrink-0 items-center justify-between gap-4 px-6">
-        <button
-          type="button"
-          onClick={handleBack}
+        <a
+          href="/"
           aria-label="Back to start"
+          onClick={(event) => {
+            event.preventDefault();
+            handleHome();
+          }}
           className="flex h-11 items-center gap-3 rounded-lg text-left transition-opacity hover:opacity-80"
         >
           <img src="/favicon.svg" alt="" className="h-7 w-7 rounded-md" />
-          <h1 className="text-sm leading-tight font-medium tracking-tight text-ink">
+          <p className="text-sm leading-tight font-medium tracking-tight text-ink">
             <span className="block">Focal Point</span>
             <span className="block text-xs">Generator</span>
-          </h1>
-        </button>
-        {image ? (
-          <div className="flex h-11 shrink-0 items-center gap-2">
-            <button
-              type="button"
-              onClick={handleBack}
-              className="inline-flex h-11 min-w-11 items-center gap-2 rounded-lg border border-line px-3 text-sm font-medium text-ink transition-colors hover:border-line-strong hover:bg-raised"
-            >
-              <BackIcon className="h-4 w-4" />
-              Back
-            </button>
-            <button
-              type="button"
-              onClick={() => replaceInputRef.current?.click()}
-              className="inline-flex h-11 min-w-11 items-center gap-2 rounded-lg border border-line px-3 text-sm font-medium text-ink transition-colors hover:border-line-strong hover:bg-raised"
-            >
-              <UploadIcon className="h-4 w-4" />
-              Replace image
-            </button>
-          </div>
-        ) : (
-          <p className="hidden h-11 items-center text-xs text-faint sm:flex">Paste an image anytime</p>
-        )}
+          </p>
+        </a>
+        <div className="flex h-11 shrink-0 items-center gap-2">
+          <a
+            href="/about"
+            aria-current={onAbout ? "page" : undefined}
+            onClick={(event) => {
+              event.preventDefault();
+              setDemoOpen(false);
+              navigate("/about");
+            }}
+            className={`inline-flex h-11 items-center rounded-lg px-3 text-sm font-medium transition-colors ${
+              onAbout ? "text-ink" : "text-muted hover:bg-raised hover:text-ink"
+            }`}
+          >
+            About
+          </a>
+          {image && !onAbout ? (
+            <>
+              <button
+                type="button"
+                onClick={handleBack}
+                className="inline-flex h-11 min-w-11 items-center gap-2 rounded-lg border border-line px-3 text-sm font-medium text-ink transition-colors hover:border-line-strong hover:bg-raised"
+              >
+                <BackIcon className="h-4 w-4" />
+                Back
+              </button>
+              <button
+                type="button"
+                onClick={() => replaceInputRef.current?.click()}
+                className="inline-flex h-11 min-w-11 items-center gap-2 rounded-lg border border-line px-3 text-sm font-medium text-ink transition-colors hover:border-line-strong hover:bg-raised"
+              >
+                <UploadIcon className="h-4 w-4" />
+                Replace image
+              </button>
+            </>
+          ) : null}
+          {!image && !onAbout ? (
+            <p className="hidden h-11 items-center text-xs text-faint sm:flex">
+              Paste an image anytime
+            </p>
+          ) : null}
+        </div>
         <input
           ref={replaceInputRef}
           type="file"
@@ -248,7 +341,9 @@ export default function App() {
         />
       </header>
 
-      {image ? (
+      {onAbout ? (
+        <AboutPage onHome={() => navigate("/")} />
+      ) : image ? (
         <main className="mx-auto grid w-full max-w-[1280px] items-start gap-6 px-6 pt-4 pb-28 lg:grid-cols-[minmax(0,1.15fr)_minmax(300px,420px)] lg:pb-16">
           {error ? (
             <p className="text-sm text-red-300 lg:col-span-2" role="alert">
@@ -265,25 +360,36 @@ export default function App() {
                 locked={guideStep !== null}
                 onChange={setPoint}
               />
-              {guideStep ? <GuideOverlay step={guideStep} onClose={cancelGuide} /> : null}
+              {guideStep ? (
+                <GuideOverlay step={guideStep} onClose={cancelGuide} />
+              ) : null}
             </div>
             <p className="mt-3 text-center text-xs text-faint">
-              Click or drag to place the important point; drags snap to the edges and center unless
-              you hold Alt. Arrow keys nudge; Shift moves faster.
+              Click or drag to place the important point; drags snap to the
+              edges and center unless you hold Alt. Arrow keys nudge; Shift
+              moves faster.
             </p>
-            {activeSample && !guideStep ? (
-              <div className="mt-3 flex justify-center">
+            <div className="mt-3 flex flex-wrap justify-center gap-2">
+              {activeSample ? (
                 <button
                   type="button"
+                  disabled={guideStep !== null}
                   onClick={() => {
                     void playGuide();
                   }}
-                  className="inline-flex h-11 min-w-11 items-center justify-center rounded-lg border border-line px-4 text-sm font-medium text-ink transition-colors hover:border-line-strong hover:bg-overlay"
+                  className="inline-flex h-11 min-w-11 items-center justify-center rounded-lg border border-line px-4 text-sm font-medium text-ink transition-colors hover:border-line-strong hover:bg-overlay disabled:pointer-events-none disabled:text-faint disabled:opacity-45"
                 >
                   Here’s what I would do
                 </button>
-              </div>
-            ) : null}
+              ) : null}
+              <button
+                type="button"
+                onClick={() => setDemoOpen(true)}
+                className="inline-flex h-11 min-w-11 items-center justify-center rounded-lg border border-line px-4 text-sm font-medium text-ink transition-colors hover:border-line-strong hover:bg-overlay"
+              >
+                Test layout
+              </button>
+            </div>
             <div className="mt-4 border-t border-line pt-4">
               <FocalPanel
                 image={image}
@@ -329,23 +435,21 @@ export default function App() {
         />
       )}
 
-      <footer
-        className={`pointer-events-none fixed inset-x-0 z-30 px-6 py-3 text-center text-xs text-faint ${
-          image ? "bottom-[4.75rem] lg:bottom-0" : "bottom-0"
-        }`}
-      >
-        <span className="pointer-events-auto">
-          Built by{" "}
-          <a
-            href="https://mikkelscheike.com"
-            className="text-ink underline-offset-2 transition-colors hover:underline"
-          >
-            Mikkel Scheike
-          </a>
-        </span>
-      </footer>
+      {!onAbout ? (
+        <footer className="pointer-events-none fixed inset-x-0 bottom-0 z-30 hidden px-6 py-3 text-center text-xs text-faint lg:block">
+          <span className="pointer-events-auto">
+            Built by{" "}
+            <a
+              href="https://mikkelscheike.com"
+              className="text-ink underline-offset-2 transition-colors hover:underline"
+            >
+              Mikkel Scheike
+            </a>
+          </span>
+        </footer>
+      ) : null}
 
-      {image ? (
+      {image && !onAbout ? (
         <CodePanel
           open={codeOpen}
           point={point}
@@ -354,6 +458,16 @@ export default function App() {
           fileName={image.name}
           onFormatChange={setFormatId}
           onClose={() => setCodeOpen(false)}
+        />
+      ) : null}
+
+      {image && demoOpen && !onAbout ? (
+        <DemoStage
+          src={image.src}
+          fileName={image.name}
+          point={point}
+          zoomPercent={zoomPercent}
+          onClose={() => setDemoOpen(false)}
         />
       ) : null}
 

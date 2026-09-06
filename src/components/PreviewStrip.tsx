@@ -1,5 +1,9 @@
 import type { FocalPoint } from "../lib/focal-point";
-import { CROP_PRESETS, presetRatioLabel, resolvePresetRatio } from "../lib/focal-point";
+import {
+  CROP_PRESETS,
+  presetRatioLabel,
+  resolvePresetRatio,
+} from "../lib/focal-point";
 import { CropPreview } from "./CropPreview";
 
 interface PreviewStripProps {
@@ -9,7 +13,12 @@ interface PreviewStripProps {
   zoomPercent: number;
 }
 
-export function PreviewStrip({ src, fileName, point, zoomPercent }: PreviewStripProps) {
+export function PreviewStrip({
+  src,
+  fileName,
+  point,
+  zoomPercent,
+}: PreviewStripProps) {
   return (
     <section className="grid gap-5">
       {CROP_PRESETS.map((preset) => {

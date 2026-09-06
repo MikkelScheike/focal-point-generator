@@ -173,5 +173,9 @@ export function generateCode(
   srcPlaceholder = "image.jpg",
   zoomPercent = 100,
 ): string {
-  return getCodeFormat(id).generate({ focalPoint, srcPlaceholder, zoomPercent });
+  return getCodeFormat(id).generate({
+    focalPoint,
+    srcPlaceholder,
+    zoomPercent,
+  });
 }

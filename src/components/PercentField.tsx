@@ -45,7 +45,9 @@ export function PercentField({
 
   return (
     <label
-      className={inline ? "flex items-center justify-between gap-3" : "grid gap-1.5"}
+      className={
+        inline ? "flex items-center justify-between gap-3" : "grid gap-1.5"
+      }
       htmlFor={id}
     >
       <span className="text-[11px] font-medium tracking-[0.14em] text-faint uppercase">

@@ -2,7 +2,8 @@ import type { LoadedImage } from "./types";
 
 const IMAGE_EXTENSION = /\.(jpe?g|png|webp|gif|avif|bmp)$/i;
 
-export const ACCEPT_ATTRIBUTE = "image/jpeg,image/png,image/webp,image/gif,image/avif,image/bmp,.jpg,.jpeg,.png,.webp,.gif,.avif,.bmp";
+export const ACCEPT_ATTRIBUTE =
+  "image/jpeg,image/png,image/webp,image/gif,image/avif,image/bmp,.jpg,.jpeg,.png,.webp,.gif,.avif,.bmp";
 
 export const INVALID_IMAGE_MESSAGE = "Please choose a valid image file.";
 
@@ -16,7 +17,10 @@ export function isProbablyImage(file: File): boolean {
   return IMAGE_EXTENSION.test(file.name);
 }
 
-export async function fileFromUrl(url: string, fileName: string): Promise<File> {
+export async function fileFromUrl(
+  url: string,
+  fileName: string,
+): Promise<File> {
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(INVALID_IMAGE_MESSAGE);
@@ -79,7 +83,9 @@ export function revokeLoadedImage(image: LoadedImage | null): void {
   }
 }
 
-export async function imageFromClipboard(event: ClipboardEvent): Promise<File | null> {
+export async function imageFromClipboard(
+  event: ClipboardEvent,
+): Promise<File | null> {
   const items = event.clipboardData?.items;
   if (!items) {
     return null;

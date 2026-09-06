@@ -47,7 +47,10 @@ export function FocalPanel({
           disabled={locked}
           onChange={(y) => onChange({ ...point, y })}
         />
-        <label className="col-span-2 grid gap-1.5 sm:col-span-1" htmlFor="crop-zoom">
+        <label
+          className="col-span-2 grid gap-1.5 sm:col-span-1"
+          htmlFor="crop-zoom"
+        >
           <span className="text-[11px] font-medium tracking-[0.14em] text-faint uppercase">
             Zoom
           </span>
@@ -60,7 +63,9 @@ export function FocalPanel({
               step={1}
               value={zoomPercent}
               disabled={locked}
-              onChange={(event) => onZoomChange(clampZoomPercent(Number(event.target.value)))}
+              onChange={(event) =>
+                onZoomChange(clampZoomPercent(Number(event.target.value)))
+              }
               aria-valuetext={`${zoomPercent} percent`}
               className="min-w-0 flex-1"
             />
@@ -72,16 +77,24 @@ export function FocalPanel({
         </label>
       </div>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="min-w-0 truncate font-mono text-xs text-muted tabular-nums" title={image.name}>
-          {formatPercent(point.x)}% {formatPercent(point.y)}% · {image.width} × {image.height} ·{" "}
-          {formatAspectRatio(image.width, image.height)} · {image.name}
-          {zoomPercent !== DEFAULT_ZOOM_PERCENT ? ` · ${zoomPercent}% zoom` : ""}
+        <p
+          className="min-w-0 truncate font-mono text-xs text-muted tabular-nums"
+          title={image.name}
+        >
+          {formatPercent(point.x)}% {formatPercent(point.y)}% · {image.width} ×{" "}
+          {image.height} · {formatAspectRatio(image.width, image.height)} ·{" "}
+          {image.name}
+          {zoomPercent !== DEFAULT_ZOOM_PERCENT
+            ? ` · ${zoomPercent}% zoom`
+            : ""}
         </p>
         <button
           type="button"
           onClick={onReset}
           disabled={
-            locked || (point.x === DEFAULT_FOCAL_POINT.x && point.y === DEFAULT_FOCAL_POINT.y)
+            locked ||
+            (point.x === DEFAULT_FOCAL_POINT.x &&
+              point.y === DEFAULT_FOCAL_POINT.y)
           }
           className="inline-flex h-11 min-w-11 shrink-0 items-center justify-center gap-2 rounded-lg border border-line px-3 text-sm font-medium text-ink transition-colors hover:border-line-strong hover:bg-overlay disabled:cursor-not-allowed disabled:opacity-40"
         >
