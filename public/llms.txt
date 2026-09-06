@@ -4,7 +4,7 @@
 
 Images never leave the browser. There is no account, API, or server-side processing. A focal point is not “put this pixel in the center.” It is the important part of the image: `object-fit: cover` plus `object-position: X% Y%` keeps that point aligned in cropped frames. `0% 0%` is top-left. `50% 50%` is center. `100% 100%` is bottom-right.
 
-Workflow: open or paste an image, place the point, preview Desktop / Tablet / Mobile / Square crops, optionally zoom, then copy CSS, Tailwind, inline style, or React.
+Workflow: open or paste an image, place the point, preview Desktop / Tablet / Mobile / Square crops, optionally zoom, then copy CSS, Tailwind, inline style, React, or an AI prompt.
 
 ## Docs
 

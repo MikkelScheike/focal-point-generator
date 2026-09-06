@@ -17,7 +17,7 @@ Responsive layouts crop the same photograph into many frames: 16:9 heroes, 4:5 c
 1. Drop, upload, paste, or pick a sample image. The file stays in the tab (`URL.createObjectURL`). It is never sent to a server.
 2. Click or drag on the source image to place the focal point. Arrow keys nudge; Shift moves faster. Alt disables snap-to-edge/center.
 3. Preview Desktop, Tablet, Mobile, and Square crops. Optional zoom scales past cover with `transform-origin` at the point.
-4. Copy generated code: CSS, Tailwind, inline style, or React. Snippets include the image filename.
+4. Copy generated code: CSS, Tailwind, inline style, React, or an AI prompt. Snippets include the image filename.
 
 Sample images include a “Here’s what I would do” guide. “Test layout” shows the same image in split login, wide hero, and mobile card frames, with or without the focal point.
 

@@ -47,7 +47,12 @@ export function CodePanel({
   const code = generateCode(formatId, point, srcPlaceholder, zoomPercent);
   const format =
     CODE_FORMATS.find((item) => item.id === formatId) ?? CODE_FORMATS[0]!;
-  const copyLabel = format.id === "css" ? "Copy CSS" : `Copy ${format.label}`;
+  const copyLabel =
+    format.id === "css"
+      ? "Copy CSS"
+      : format.id === "ai"
+        ? "Copy prompt"
+        : `Copy ${format.label}`;
 
   useEffect(() => {
     if (!open) {
@@ -112,12 +117,26 @@ export function CodePanel({
               Generated code
             </h2>
             <p className="mt-1 text-sm text-muted">
-              Positioning for{" "}
-              <span className="font-mono text-[12px] text-ink">
-                {srcPlaceholder}
-              </span>
-              {zoomPercent > 100 ? ` at ${zoomPercent}% zoom` : ""}. The image
-              pixels are not modified.
+              {format.id === "ai" ? (
+                <>
+                  Paste this into an AI coding assistant so it can apply the
+                  focal point on{" "}
+                  <span className="font-mono text-[12px] text-ink">
+                    {srcPlaceholder}
+                  </span>
+                  {zoomPercent > 100 ? ` at ${zoomPercent}% zoom.` : "."}
+                </>
+              ) : (
+                <>
+                  Positioning for{" "}
+                  <span className="font-mono text-[12px] text-ink">
+                    {srcPlaceholder}
+                  </span>
+                  {zoomPercent > 100
+                    ? ` at ${zoomPercent}% zoom. The image pixels are not modified.`
+                    : ". The image pixels are not modified."}
+                </>
+              )}
             </p>
           </div>
           <button
@@ -132,7 +151,7 @@ export function CodePanel({
         </div>
 
         <div
-          className="mx-5 mt-4 grid grid-cols-2 gap-1 rounded-lg border border-line bg-canvas p-1 sm:grid-cols-4"
+          className="mx-5 mt-4 grid grid-cols-2 gap-1 rounded-lg border border-line bg-canvas p-1 sm:grid-cols-3 lg:grid-cols-5"
           role="tablist"
           aria-label="Code format"
         >

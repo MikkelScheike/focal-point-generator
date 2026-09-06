@@ -47,8 +47,6 @@ const fieldClass =
   "h-11 w-full rounded-lg border border-line bg-canvas px-3 text-sm text-ink outline-none placeholder:text-faint";
 const primaryButtonClass =
   "inline-flex h-11 items-center justify-center rounded-lg bg-ink px-4 text-sm font-medium text-canvas transition-colors hover:bg-zinc-200";
-const ghostButtonClass =
-  "inline-flex h-11 items-center justify-center rounded-lg px-3 text-sm font-medium text-muted transition-colors hover:bg-overlay hover:text-ink";
 
 export function DemoStage({
   src,
@@ -112,102 +110,10 @@ export function DemoStage({
         className="shrink-0 border-b border-line bg-raised"
         style={{ boxShadow: "inset 0 -1px 0 rgb(94 234 212 / 0.35)" }}
       >
-        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3 sm:px-5">
-          <div className="flex min-w-0 flex-wrap items-center gap-x-6 gap-y-3">
-            <p className="text-[11px] font-medium tracking-[0.16em] text-accent uppercase">
-              Demo
-            </p>
-            <div className="hidden h-10 w-px self-center bg-line-strong sm:block" />
-            <div className="grid gap-1.5">
-              <p className="text-[11px] font-medium tracking-[0.14em] text-ink/80 uppercase">
-                Layout
-              </p>
-              <div className="flex items-center gap-1">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setIndex((current) =>
-                      current === 0 ? lastIndex : current - 1,
-                    )
-                  }
-                  aria-label="Previous layout"
-                  className={ghostButtonClass}
-                >
-                  <ChevronLeftIcon className="h-4 w-4" />
-                </button>
-                <div className="flex flex-wrap rounded-lg border border-line bg-canvas p-0.5">
-                  {DEMO_LAYOUTS.map((item, itemIndex) => {
-                    const active = item.id === layout.id;
-                    return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => setIndex(itemIndex)}
-                        aria-pressed={active}
-                        className={`h-9 rounded-md px-3 text-sm font-medium transition-colors ${
-                          active
-                            ? "bg-overlay text-ink"
-                            : "text-muted hover:text-ink"
-                        }`}
-                      >
-                        {item.label}
-                      </button>
-                    );
-                  })}
-                </div>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setIndex((current) =>
-                      current === lastIndex ? 0 : current + 1,
-                    )
-                  }
-                  aria-label="Next layout"
-                  className={ghostButtonClass}
-                >
-                  <ChevronRightIcon className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-            <div className="hidden h-10 w-px self-center bg-line-strong lg:block" />
-            <div className="grid gap-1.5">
-              <p className="text-[11px] font-medium tracking-[0.14em] text-ink/80 uppercase">
-                Focal
-              </p>
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="flex rounded-lg border border-line bg-canvas p-0.5">
-                  <button
-                    type="button"
-                    onClick={() => setUseFocal(false)}
-                    aria-pressed={!useFocal}
-                    className={`h-9 rounded-md px-3 text-sm font-medium transition-colors ${
-                      !useFocal
-                        ? "bg-overlay text-ink"
-                        : "text-muted hover:text-ink"
-                    }`}
-                  >
-                    Without
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setUseFocal(true)}
-                    aria-pressed={useFocal}
-                    className={`h-9 rounded-md px-3 text-sm font-medium transition-colors ${
-                      useFocal
-                        ? "bg-overlay text-ink"
-                        : "text-muted hover:text-ink"
-                    }`}
-                  >
-                    With
-                  </button>
-                </div>
-                <span className="hidden font-mono text-[11px] text-faint tabular-nums sm:inline">
-                  {formatPercent(cropPoint.x)}% {formatPercent(cropPoint.y)}% ·{" "}
-                  {cropZoom}%
-                </span>
-              </div>
-            </div>
-          </div>
+        <div className="flex items-center justify-between gap-3 px-4 py-2.5 sm:px-5">
+          <p className="text-[11px] font-medium tracking-[0.16em] text-accent uppercase">
+            Test
+          </p>
           <button
             type="button"
             onClick={onClose}
@@ -217,9 +123,88 @@ export function DemoStage({
             Close
           </button>
         </div>
+        <div className="flex flex-col gap-2 px-4 pb-3 sm:flex-row sm:items-center sm:gap-3 sm:px-5">
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() =>
+                setIndex((current) => (current === 0 ? lastIndex : current - 1))
+              }
+              aria-label="Previous layout"
+              className="hidden h-11 shrink-0 items-center justify-center rounded-lg px-3 text-sm font-medium text-muted transition-colors hover:bg-overlay hover:text-ink sm:inline-flex"
+            >
+              <ChevronLeftIcon className="h-4 w-4" />
+            </button>
+            <div className="flex min-w-0 flex-1 rounded-lg border border-line bg-canvas p-0.5">
+              {DEMO_LAYOUTS.map((item, itemIndex) => {
+                const active = item.id === layout.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setIndex(itemIndex)}
+                    aria-pressed={active}
+                    className={`h-9 min-w-0 flex-1 rounded-md px-2 text-sm font-medium whitespace-nowrap transition-colors sm:flex-none sm:px-3 ${
+                      active
+                        ? "bg-overlay text-ink"
+                        : "text-muted hover:text-ink"
+                    }`}
+                  >
+                    <span className="sm:hidden">{item.shortLabel}</span>
+                    <span className="hidden sm:inline">{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+            <button
+              type="button"
+              onClick={() =>
+                setIndex((current) =>
+                  current === lastIndex ? 0 : current + 1,
+                )
+              }
+              aria-label="Next layout"
+              className="hidden h-11 shrink-0 items-center justify-center rounded-lg px-3 text-sm font-medium text-muted transition-colors hover:bg-overlay hover:text-ink sm:inline-flex"
+            >
+              <ChevronRightIcon className="h-4 w-4" />
+            </button>
+          </div>
+          <div className="flex items-center gap-2 sm:ml-auto">
+            <div className="flex flex-1 rounded-lg border border-line bg-canvas p-0.5 sm:flex-none">
+              <button
+                type="button"
+                onClick={() => setUseFocal(false)}
+                aria-pressed={!useFocal}
+                className={`h-9 flex-1 rounded-md px-3 text-sm font-medium transition-colors sm:flex-none ${
+                  !useFocal
+                    ? "bg-overlay text-ink"
+                    : "text-muted hover:text-ink"
+                }`}
+              >
+                Without
+              </button>
+              <button
+                type="button"
+                onClick={() => setUseFocal(true)}
+                aria-pressed={useFocal}
+                className={`h-9 flex-1 rounded-md px-3 text-sm font-medium transition-colors sm:flex-none ${
+                  useFocal
+                    ? "bg-overlay text-ink"
+                    : "text-muted hover:text-ink"
+                }`}
+              >
+                With
+              </button>
+            </div>
+            <span className="hidden font-mono text-[11px] text-faint tabular-nums lg:inline">
+              {formatPercent(cropPoint.x)}% {formatPercent(cropPoint.y)}% ·{" "}
+              {cropZoom}%
+            </span>
+          </div>
+        </div>
       </header>
 
-      <div className="relative min-h-0 flex-1 overflow-hidden bg-canvas">
+      <div className="relative min-h-0 flex-1 overflow-y-auto overscroll-contain bg-canvas [-webkit-overflow-scrolling:touch]">
         {layout.kind === "split" ? (
           <SplitLogin src={src} fileName={fileName} cropStyle={cropStyle} />
         ) : null}
@@ -246,8 +231,8 @@ function SplitLogin({ src, fileName, cropStyle }: LayoutVisualProps) {
   const rememberId = useId();
 
   return (
-    <div className="flex h-full min-h-0 flex-col lg:flex-row">
-      <div className="relative min-h-0 min-w-0 h-[42%] overflow-hidden bg-overlay lg:h-auto lg:w-1/2 lg:flex-none">
+    <div className="flex min-h-full flex-col lg:h-full lg:min-h-0 lg:flex-row">
+      <div className="relative h-[min(42dvh,280px)] shrink-0 overflow-hidden bg-overlay lg:h-auto lg:min-h-0 lg:w-1/2 lg:flex-none">
         <img
           src={src}
           alt={`${fileName} in split login layout`}
@@ -256,7 +241,7 @@ function SplitLogin({ src, fileName, cropStyle }: LayoutVisualProps) {
           style={cropStyle}
         />
       </div>
-      <div className="flex min-h-0 flex-1 flex-col justify-center overflow-y-auto bg-raised px-8 py-8 sm:px-12 lg:w-1/2 lg:flex-none lg:px-16">
+      <div className="flex flex-1 flex-col justify-center bg-raised px-8 py-8 sm:px-12 lg:min-h-0 lg:w-1/2 lg:flex-none lg:overflow-y-auto lg:px-16">
         <div className="mx-auto w-full max-w-[20rem]">
           <p className="text-[11px] font-medium tracking-[0.16em] text-faint uppercase">
             Lumina
@@ -338,7 +323,7 @@ function HeroBanner({ src, fileName, cropStyle }: LayoutVisualProps) {
   const emailId = useId();
 
   return (
-    <div className="relative h-full min-h-0 overflow-hidden bg-overlay">
+    <div className="relative h-full min-h-full overflow-hidden bg-overlay">
       <img
         src={src}
         alt={`${fileName} in wide hero layout`}
@@ -405,7 +390,7 @@ function BookingCard({ src, fileName, cropStyle }: LayoutVisualProps) {
   const dateId = useId();
 
   return (
-    <div className="flex h-full items-center justify-center bg-canvas px-4 py-8">
+    <div className="flex min-h-full items-start justify-center bg-canvas px-4 py-6 sm:items-center sm:py-8">
       <article className="w-full max-w-sm overflow-hidden rounded-2xl border border-line bg-raised shadow-[0_24px_80px_rgb(0_0_0_/_0.35)]">
         <div className="relative aspect-[4/5] overflow-hidden bg-overlay">
           <img

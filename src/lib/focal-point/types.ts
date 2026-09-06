@@ -12,7 +12,12 @@ export interface LoadedImage {
   type: string;
 }
 
-export type CodeFormatId = "css" | "tailwind" | "inline" | "react";
+export type CodeFormatId =
+  | "css"
+  | "tailwind"
+  | "inline"
+  | "react"
+  | "ai";
 
 export interface CodeContext {
   focalPoint: FocalPoint;
