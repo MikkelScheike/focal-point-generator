@@ -109,7 +109,7 @@ export function CodePanel({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative z-10 grid w-full max-w-[680px] max-h-[min(92dvh,720px)] grid-rows-[auto_auto_minmax(0,1fr)] overflow-hidden rounded-2xl border border-line bg-raised shadow-[0_24px_80px_rgb(0_0_0_/_0.45)]"
+        className="relative z-10 grid w-full max-w-[680px] max-h-[min(96dvh,828px)] grid-rows-[auto_auto_minmax(0,1fr)] overflow-hidden rounded-2xl border border-line bg-raised shadow-[0_24px_80px_rgb(0_0_0_/_0.45)]"
       >
         <div className="flex items-start justify-between gap-4 border-b border-line px-5 py-4">
           <div>
@@ -122,9 +122,8 @@ export function CodePanel({
                   Paste this into an AI coding assistant so it can apply the
                   focal point on{" "}
                   <span className="font-mono text-[12px] text-ink">
-                    {srcPlaceholder}
+                    {srcPlaceholder}.
                   </span>
-                  {zoomPercent > 100 ? ` at ${zoomPercent}% zoom.` : "."}
                 </>
               ) : (
                 <>
