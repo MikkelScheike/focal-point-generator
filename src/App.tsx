@@ -320,11 +320,6 @@ export default function App() {
               </button>
             </>
           ) : null}
-          {!image && !onAbout ? (
-            <p className="hidden h-11 items-center text-xs text-faint sm:flex">
-              Paste an image anytime
-            </p>
-          ) : null}
         </div>
         <input
           ref={replaceInputRef}
